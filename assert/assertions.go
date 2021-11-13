@@ -63,7 +63,7 @@ func ObjectsAreEqual(expected, actual interface{}) bool {
 
 	exp, ok := expected.([]byte)
 	if !ok {
-		return reflect.DeepEqual(expected, actual)
+		return deepEqual(expected, actual)
 	}
 
 	act, ok := actual.([]byte)
@@ -90,7 +90,7 @@ func ObjectsAreEqualValues(expected, actual interface{}) bool {
 	expectedValue := reflect.ValueOf(expected)
 	if expectedValue.IsValid() && expectedValue.Type().ConvertibleTo(actualType) {
 		// Attempt comparison after type conversion
-		return reflect.DeepEqual(expectedValue.Convert(actualType).Interface(), actual)
+		return deepEqual(expectedValue.Convert(actualType).Interface(), actual)
 	}
 
 	return false
@@ -578,7 +578,7 @@ func isEmpty(object interface{}) bool {
 	// array types are empty when they match their zero-initialized state
 	default:
 		zero := reflect.Zero(objValue.Type())
-		return reflect.DeepEqual(object, zero.Interface())
+		return deepEqual(object, zero.Interface())
 	}
 }
 
